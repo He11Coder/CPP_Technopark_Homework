@@ -1,6 +1,14 @@
 #include "TitleDataBase.hpp"
 #include "utils.hpp"
 
+const int TITLE_FILE_MISSED = 1;
+const int RATING_FILE_MISSED = 2;
+const int INFO_FILE_MISSED = 3;
+const int RUNTIME_MISSED = 4;
+
+const int INCORRECT_DATA = -1;
+const int FILE_OPENING_ERROR = -2;
+
 //./build/dz1 -t title.akas.tsv -r title.ratings.tsv -i title.basics.tsv -d 200
 
 int main(int argc, char* argv[])
@@ -9,26 +17,26 @@ int main(int argc, char* argv[])
 
     if (comm_line_args.title_file_name.empty())
     {
-        std::cout << "Title file (-t) is missed!" << std::endl;
-        return 1;
+        std::cerr << "Title file (-t) is missed!" << std::endl;
+        return TITLE_FILE_MISSED;
     }
 
     if (comm_line_args.rating_file_name.empty())
     {
-        std::cout << "Rating file (-r) is missed!" << std::endl;
-        return 2;
+        std::cerr << "Rating file (-r) is missed!" << std::endl;
+        return RATING_FILE_MISSED;
     }
 
     if (comm_line_args.info_file_name.empty())
     {
-        std::cout << "Info file (-i) is missed!" << std::endl;
-        return 3;
+        std::cerr << "Info file (-i) is missed!" << std::endl;
+        return INFO_FILE_MISSED;
     }
 
     if (comm_line_args.duration.empty())
     {
-        std::cout << "Duration time is missed!" << std::endl;
-        return 4;
+        std::cerr << "Duration time is missed!" << std::endl;
+        return RUNTIME_MISSED;
     }
 
     TitleDataBase IMDb(comm_line_args.title_file_name, 8, comm_line_args.rating_file_name, 3, comm_line_args.info_file_name, 9, std::stoi(comm_line_args.duration));
@@ -36,8 +44,8 @@ int main(int argc, char* argv[])
     {
         if (!IMDb.isValid())
         {
-            std::cout << "Incorrect data!" << std::endl;
-            return -1;
+            std::cerr << "Incorrect data!" << std::endl;
+            return INCORRECT_DATA;
         }
 
         IMDb.skipHeaders();
@@ -69,17 +77,17 @@ int main(int argc, char* argv[])
                     std::cout << top_titles[i] << " - " << top10rating[i].second << std::endl;
             }
             else 
-                std::cout << "No Movies Found" << std::endl;
+                std::cerr << "No Movies Found" << std::endl;
         }
         else
-            std::cout << "No Movies Found" << std::endl;
+            std::cerr << "No Movies Found" << std::endl;
 
         delete id_primaryTitle;
     }
     else
     {
-        std::cout << "File opening error!" << std::endl;
-        return -2;
+        std::cerr << "File opening error!" << std::endl;
+        return FILE_OPENING_ERROR;
     }
 
     return 0;

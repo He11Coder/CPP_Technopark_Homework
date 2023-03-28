@@ -29,7 +29,7 @@ Args parseCommLineArgs(int argc, char* argv[])
                 comm_line.title_file_name = optarg;
             }
             else
-                std::cout << "Filename is not found!" << std::endl;
+                std::cerr << "Filename is not found!" << std::endl;
             break;
         };
         case 'r':
@@ -39,7 +39,7 @@ Args parseCommLineArgs(int argc, char* argv[])
                 comm_line.rating_file_name = optarg;
             }
             else
-                std::cout << "Filename is not found!" << std::endl;
+                std::cerr << "Filename is not found!" << std::endl;
             break;
         }
         case 'i':
@@ -49,7 +49,7 @@ Args parseCommLineArgs(int argc, char* argv[])
                 comm_line.info_file_name = optarg;
             }
             else
-                std::cout << "Filename is not found!" << std::endl;
+                std::cerr << "Filename is not found!" << std::endl;
             break;
         }
         case 'd':
@@ -59,12 +59,12 @@ Args parseCommLineArgs(int argc, char* argv[])
                 comm_line.duration = optarg;
             }
             else
-                std::cout << "Duration time is not found!" << std::endl;
+                std::cerr << "Duration time is not found!" << std::endl;
             break;
         }
         default:
         {
-            std::cout << "Incorrect flag!" << std::endl;
+            std::cerr << "Incorrect flag!" << std::endl;
             break;
         }
         }
