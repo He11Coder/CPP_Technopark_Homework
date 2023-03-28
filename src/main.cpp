@@ -5,35 +5,33 @@
 
 int main(int argc, char* argv[])
 {
-    std::string title_file_name, rating_file_name, info_file_name, duration;
+    Args comm_line_args = parseCommLineArgs(argc, argv);
 
-    std::tie(title_file_name, rating_file_name, info_file_name, duration) = parseCommLineArgs(argc, argv);
-
-    if (title_file_name.empty())
+    if (comm_line_args.title_file_name.empty())
     {
         std::cout << "Title file (-t) is missed!" << std::endl;
         return 1;
     }
 
-    if (rating_file_name.empty())
+    if (comm_line_args.rating_file_name.empty())
     {
         std::cout << "Rating file (-r) is missed!" << std::endl;
         return 2;
     }
 
-    if (info_file_name.empty())
+    if (comm_line_args.info_file_name.empty())
     {
         std::cout << "Info file (-i) is missed!" << std::endl;
         return 3;
     }
 
-    if (duration.empty())
+    if (comm_line_args.duration.empty())
     {
         std::cout << "Duration time is missed!" << std::endl;
         return 4;
     }
 
-    TitleDataBase IMDb(title_file_name, 8, rating_file_name, 3, info_file_name, 9, std::stoi(duration));
+    TitleDataBase IMDb(comm_line_args.title_file_name, 8, comm_line_args.rating_file_name, 3, comm_line_args.info_file_name, 9, std::stoi(comm_line_args.duration));
     if (IMDb.isOpen())
     {
         if (!IMDb.isValid())

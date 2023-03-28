@@ -1,6 +1,6 @@
 #include "utils.hpp"
 
-std::tuple<std::string, std::string, std::string, std::string> parseCommLineArgs(int argc, char* argv[])
+Args parseCommLineArgs(int argc, char* argv[])
 {
     const char* short_options = "t:r:i:d:";
 
@@ -13,10 +13,7 @@ std::tuple<std::string, std::string, std::string, std::string> parseCommLineArgs
         {nullptr, 0, nullptr, 0}
     };
 
-    std::string title_file_name;
-    std::string rating_file_name;
-    std::string info_file_name;
-    std::string duration;
+    Args comm_line;
 
     int option_index = -1;
     int found_option = -1;
@@ -29,7 +26,7 @@ std::tuple<std::string, std::string, std::string, std::string> parseCommLineArgs
         {
             if (optarg != nullptr)
             {
-                title_file_name = optarg;
+                comm_line.title_file_name = optarg;
             }
             else
                 std::cout << "Filename is not found!" << std::endl;
@@ -39,7 +36,7 @@ std::tuple<std::string, std::string, std::string, std::string> parseCommLineArgs
         {
             if (optarg != nullptr)
             {
-                rating_file_name = optarg;
+                comm_line.rating_file_name = optarg;
             }
             else
                 std::cout << "Filename is not found!" << std::endl;
@@ -49,7 +46,7 @@ std::tuple<std::string, std::string, std::string, std::string> parseCommLineArgs
         {
             if (optarg != nullptr)
             {
-                info_file_name = optarg;
+                comm_line.info_file_name = optarg;
             }
             else
                 std::cout << "Filename is not found!" << std::endl;
@@ -59,7 +56,7 @@ std::tuple<std::string, std::string, std::string, std::string> parseCommLineArgs
         {
             if (optarg != nullptr)
             {
-                duration = optarg;
+                comm_line.duration = optarg;
             }
             else
                 std::cout << "Duration time is not found!" << std::endl;
@@ -73,5 +70,5 @@ std::tuple<std::string, std::string, std::string, std::string> parseCommLineArgs
         }
     }
 
-    return std::make_tuple(title_file_name, rating_file_name, info_file_name, duration);
+    return comm_line;
 }
