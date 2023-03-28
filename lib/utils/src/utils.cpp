@@ -72,3 +72,13 @@ Args parseCommLineArgs(int argc, char* argv[])
 
     return comm_line;
 }
+
+std::vector<std::string> getFirstInPairs(std::vector<std::pair<std::string, double>> pairs)
+{
+    std::vector<std::string> vector_of_firsts(pairs.size());
+
+    for (int i = 0; i < vector_of_firsts.size(); ++i)
+        vector_of_firsts[i] = pairs[i].first;
+
+    return vector_of_firsts;
+}

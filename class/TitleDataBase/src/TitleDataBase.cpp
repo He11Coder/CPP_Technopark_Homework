@@ -1,5 +1,22 @@
 #include "TitleDataBase.hpp"
 
+const char NO_DATA[] = "\\N";
+
+const int ID_COLUMN = 1;
+const int TITLE_TYPE_COLUMN = 2;
+const char TITLE_TYPE[] = "movie";
+const int PRIMARY_TITLE_COLUMN = 3;
+const int ADULT_FLAG_COLUMN = 5;
+const char NOT_FOR_ADULTS[] = "0";
+const int RUNTIME_COLUMN = 8;
+
+const int RATING_COLUMN = 2;
+const int NUM_VOTES_COLUMN = 3;
+
+const int LOCALIZED_TITLE_COLUMN = 3;
+const int REGION_COLUMN = 4;
+const char RU_REGION[] = "RU";
+
 bool comparator(std::pair<std::string, double>& a, std::pair<std::string, double>& b)
 {
     return a.second > b.second;
@@ -36,27 +53,27 @@ void TitleDataBase::getNotAdultMoviesWithProperRuntime(std::map<std::string, std
             //Записываем данные в нужную переменную, в зависимости от того, из какого столбца они получены
             switch (col_count)
             {
-            case 1:
+            case ID_COLUMN:
                 id = current_substr;
                 break;
-            case 2:
+            case TITLE_TYPE_COLUMN:
                 title_type = current_substr;
                 break;
-            case 3:
+            case PRIMARY_TITLE_COLUMN:
                 primary_title = current_substr;
                 break;
-            case 5:
-                is_adult = (current_substr == "0") ? false : true;
+            case ADULT_FLAG_COLUMN:
+                is_adult = (current_substr == NOT_FOR_ADULTS) ? false : true;
                 break;
-            case 8:
-                run_time = (current_substr != "\\N") ? std::stoi(current_substr) : -1;
+            case RUNTIME_COLUMN:
+                run_time = (current_substr != NO_DATA) ? std::stoi(current_substr) : -1;
                 break;
             default:
                 break;
             }
         }
 
-        if ((title_type == "movie") && (!is_adult) && (run_time <= duration_time) && (run_time > 0))
+        if ((title_type == TITLE_TYPE) && (!is_adult) && (run_time <= duration_time) && (run_time > 0))
             id_primaryTitle.insert(std::pair<std::string, std::string>(id, primary_title));
     }
 }
@@ -85,14 +102,14 @@ void TitleDataBase::getRatingMap(std::map<std::string, double>& id_rating)
 
             switch (col_count)
             {
-            case 1:
+            case ID_COLUMN:
                 id = current_substr;
                 break;
-            case 2:
-                rating = (current_substr != "\\N") ? std::stod(current_substr) : -1.0;
+            case RATING_COLUMN:
+                rating = (current_substr != NO_DATA) ? std::stod(current_substr) : -1.0;
                 break;
-            case 3:
-                numVotes = (current_substr != "\\N") ? std::stoi(current_substr) : -1;
+            case NUM_VOTES_COLUMN:
+                numVotes = (current_substr != NO_DATA) ? std::stoi(current_substr) : -1;
                 break;
             default:
                 break;
@@ -180,10 +197,10 @@ std::vector<std::string> TitleDataBase::getRusTitlesById(const std::vector<std::
 
                 switch (col_count)
                 {
-                case 3:
+                case LOCALIZED_TITLE_COLUMN:
                     local_title = current_substr;
                     break;
-                case 4:
+                case REGION_COLUMN:
                     region = current_substr;
                     break;
                 default:
@@ -191,7 +208,7 @@ std::vector<std::string> TitleDataBase::getRusTitlesById(const std::vector<std::
                 }
             }
 
-            if (region == "RU")
+            if (region == RU_REGION)
                 titles_vector[i] = local_title;
 
             std::getline(titles, line_buff);
@@ -200,7 +217,7 @@ std::vector<std::string> TitleDataBase::getRusTitlesById(const std::vector<std::
 
         //Если записи нет, значит не нашлось русского названия
         if (titles_vector[i].empty())
-            titles_vector[i] = "\\N";
+            titles_vector[i] = NO_DATA;
     }
 
     return titles_vector;

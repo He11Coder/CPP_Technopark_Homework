@@ -4,6 +4,7 @@
 #include <iostream>
 #include <tuple>
 #include <string>
+#include <vector>
 
 struct Args
 {
@@ -14,3 +15,5 @@ struct Args
 };
 
 Args parseCommLineArgs(int argc, char* argv[]);
+
+std::vector<std::string> getFirstInPairs(std::vector<std::pair<std::string, double>> pairs);
